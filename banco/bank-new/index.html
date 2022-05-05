@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco - Caixa Eletrônico</title>
+</head>
+<body>
+    <script>
+        var saldo = 800;
+        
+        var senha = 3589
+
+        var nome_do_usuario = prompt("Bem-vindo ao seu banco. Por favor, informe seu nome:");
+        alert ("Olá, " + nome_do_usuario + ". É um prazer ter você aqui!");
+
+        inicio()
+
+        function inicio() {
+            var escolha = parseInt(prompt("Escolha uma das opções: 1) Saldo 2) Extrato 3) Saque 4) Depósito 5) Tranferência 6) Sair"));
+            switch (escolha) {
+                case 1:
+                    verSaldo();
+                    break;
+                case 2:
+                    verExtrato();
+                    break;
+                case 3:
+                    saque();
+                    break;
+                case 4:
+                    fazerDeposito();
+                    break;
+                case 5:
+                    fazerTranferencia();
+                    break;
+                case 6:
+                    sair();
+                default:
+                    erro();
+            }
+        }
+
+        function verSaldo() {
+            senhaT();
+            alert("Seu saldo atual é: " + saldo);
+            inicio();
+        }
+
+        function fazerDeposito() {
+            var deposito = parseFloat(prompt("Qual o valor para depósito?"));
+            if (isNaN(deposito) || deposito === "") {
+                alert("Por favor, informe o valor!");
+                fazerDeposito();
+            } else if (deposito <= 0) {
+                alert("Operação não autorizada!");
+                fazerDeposito();
+            } else {
+                saldo += deposito;
+                verSaldo();
+                inicio();
+            }
+        }
+
+        function senhaT() {
+            var senhaD = parseInt(prompt("Digite sua senha:"));
+            if (senhaD == senha) {
+                alert("Acesso liberado!");
+            } else {
+                alert("Senha incorreta!");
+                senhaT();
+            }
+        }
+
+        function saque() {
+            senhaT();
+
+            var sacar = parseFloat(prompt("Qual valor deseja sacar?"));
+            if (isNaN(sacar) || sacar === '') {
+                alert("Por favor, informe o valor:");
+                saque();
+            } else if (sacar >= saldo) {
+                alert("Operação não autorizada.");
+                saque();
+            } else if (sacar <= 0) {
+                alert("Operação não autorizada.");
+                saque();
+            }
+            else {
+                saldo -= sacar;
+                verSaldo();
+            }
+        }
+
+        function sair() {
+            var confirma = confirm("Você deseja sair?");
+            if (confirma) {
+                alert(nome_do_usuario + ", foi um prazer ter você por aqui!");
+                window.close();
+            } else {
+                inicio();
+            }
+        }
+
+        function erro() {
+            alert("Por favor, informe um número entre 1 e 6");
+            inicio();
+        }
+
+        function verExtrato() {
+            senhaT();
+            alert("Supermercado... R$ 45 | Pastelaria... R$ 25 | Loja de Sapatos... R$ 250 | Loja de Móveis... R$ 500 | Depósito... R$ 150 | Transferência... R$ 50");
+            inicio();
+        }
+
+        function fazerTranferencia() {
+            senhaT();
+            var nConta = parseInt(prompt("Informe o número da conta que deseja fazer a tranferência:"));
+            var nTransferencia = parseFloat(prompt("Qual o valor da tranferência?"));
+
+            if (isNaN(nConta)) {
+                alert("Operação inválida!");
+                fazerTranferencia();
+            }
+            if (nTransferencia > saldo || nTransferencia == saldo) {
+                alert("Operação não autorizada!");
+                fazerTranferencia();
+            } else {
+                saldo -= nTransferencia;
+                alert("Você está transferindo: " + nTransferencia + " R$" + "para a conta: " + nConta);
+                verSaldo();
+            }
+        }
+
+    </script>
+</body>
+</html>
